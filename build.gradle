@@ -46,6 +46,10 @@ spotbugs {
 	sourceSets = [sourceSets.main]
 }
 
+bootRun {
+	//jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"]
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')

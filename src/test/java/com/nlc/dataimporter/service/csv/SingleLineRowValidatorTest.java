@@ -16,6 +16,16 @@ public class SingleLineRowValidatorTest {
         classUnderTest.validate(csvRow);
     }
 
+    @Test
+    public void givenRightLine_whenValidateIsCalled_thenNoExceptionIsThrown() throws Exception {
+        //given
+        String csvRow = "JHMBE17407S200596,KB,H3,HONDA";
+
+        //when
+        DataValidator classUnderTest = new SingleLineRowValidator();
+        classUnderTest.validate(csvRow);
+    }
+
     @Test(expected=RuntimeException.class)
     public void givenNullInput_whenValidateIsCalled_thenExceptionThrown() throws Exception {
         //given

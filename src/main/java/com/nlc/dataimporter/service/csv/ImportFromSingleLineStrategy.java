@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImportFromSingleLineStrategy implements ImportFromTextStrategy {
 
-    @Autowired
-    CarInfoRepository carInfoRepository;
+    @Autowired CarInfoRepository carInfoRepository;
     private CarInfo importedCarInfo;
 
     @Override

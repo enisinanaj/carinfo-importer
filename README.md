@@ -56,7 +56,24 @@ Date: Sun, 24 Jun 2018 13:09:51 GMT
 Connection: close
 ```
 
-returning a **Location** header that points at the newly created resource.
+> returning a **Location** header that points at the newly created resource. In case of a file upload and multiple imports It's returning the **Location** of all the car info elements.
+
+
+#### `multipart/form-data` example
+
+```
+## Request
+curl -X "POST" "http://localhost:8080/carinfo" \
+     -H 'Content-Type: multipart/form-data; charset=utf-8; boundary=__X_PAW_BOUNDARY__' \
+     -F "file=VF1KMS40A36042123,KB,H1,RENAULT
+SHSRE67507U001669,KB,H1,HONDA
+JHMBE17407S200596,KB,H3,HONDA
+VF36ERFJC21545586,KB,H1,PEUGEOT
+VF3LB9HCGES022011,VA,H1,PEUGEOT
+WVWZZZ9NZ7Y062120,VA,H3,VW
+WF0WXXGCDW6R41261,VA,H1,FORD
+WVWZZZ3CZEE062520,VA,H2,VOLKSWAGEN"
+```
 
 ## Running the tests
 

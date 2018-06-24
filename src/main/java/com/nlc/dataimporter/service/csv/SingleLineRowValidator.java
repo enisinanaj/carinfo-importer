@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class SingleLineRowValidator implements DataValidator<String> {
 
-    private static final String CSV_ROW_PATTERN = "^[A-Z0-9]{17},[A-Z]{2},[A-Z0-1]{2},.*$";
+    private static final String CSV_ROW_PATTERN = "^[A-Z0-9]{17},[A-Z]{2},[A-Z0-9]{2},.*$";
     private final Pattern pattern = Pattern.compile(CSV_ROW_PATTERN);
 
     @Override
