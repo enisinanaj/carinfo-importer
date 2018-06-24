@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.easytesting:fest-util:1.1.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.easytesting/fest-util/1.1.6/e785ee9c1f314bbf9e5a824b85143e440642557a/fest-util-1.1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.easytesting/fest-util/1.1.6/3494b4ee34ac42be816e155a9e2897a88fcedea6/fest-util-1.1.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

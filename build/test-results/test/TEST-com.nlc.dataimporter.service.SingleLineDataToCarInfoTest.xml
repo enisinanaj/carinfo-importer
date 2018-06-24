@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.nlc.dataimporter.service.SingleLineDataToCarInfoTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-06-23T23:15:37" hostname="endorphine.homenet.telecomitalia.it" time="2.185">
+  <properties/>
+  <testcase name="importFromSource" classname="com.nlc.dataimporter.service.SingleLineDataToCarInfoTest" time="2.118"/>
+  <testcase name="ifSourceIsNullReturnEmptyList" classname="com.nlc.dataimporter.service.SingleLineDataToCarInfoTest" time="0.042"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
