@@ -18,6 +18,16 @@ public class FileNameValidatorTest {
         new FileNameValidator().validate(file);
     }
 
+    @Test(expected=RuntimeException.class)
+    public void givenFileWithEmptyFilename_whenValidating_ExceptionIsReturned() throws Exception {
+        //given
+        MockMultipartFile file = new MockMultipartFile(null, null,
+                "text/plain", TestUtils.IMPORT_LINE_FOR_TEST.getBytes());
+
+        //when
+        new FileNameValidator().validate(file);
+    }
+
     @Test
     public void givenNormalFile_whenValidating_ValidationIsPassed() throws Exception {
         //given

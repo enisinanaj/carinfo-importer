@@ -11,11 +11,11 @@ buildscript {
 
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.2"
+		//classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.2"
 	}
 }
 
-apply plugin: "com.github.spotbugs"
+//apply plugin: "com.github.spotbugs"
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -42,9 +42,9 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 jacocoTestReport.dependsOn test
 
-spotbugs {
+/*spotbugs {
 	sourceSets = [sourceSets.main]
-}
+}*/
 
 bootRun {
 	//jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"]

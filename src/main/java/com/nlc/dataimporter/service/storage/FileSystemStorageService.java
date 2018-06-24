@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,9 +40,8 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void store(MultipartFile file) throws StorageException {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
         validateFile(file);
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             try (InputStream inputStream = file.getInputStream()) {
@@ -101,13 +101,13 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public String loadFileContentAsString(String filename) {
         try (InputStream is = loadAsResource(filename).getInputStream()) {
-            if (is != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("utf8")))) {
                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            } catch (IOException io) {
+                throw new StorageException("Unable to read resource.");
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new StorageException("Unable to read resource.");
         }
-        return null;
     }
 }
