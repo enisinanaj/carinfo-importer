@@ -22,18 +22,14 @@ public class SingleLineDataToCarInfo {
     }
 
     public CarInfo importFromSource(String source) {
-
-        if (!isSourceFormatValid(source)) {
-            return null;
-        }
-
+        validateSource(source);
         this.source = source;
         convertSourceToCarInfo();
 
         return importedCarInfo;
     }
 
-    private boolean isSourceFormatValid(String source) {
+    protected boolean validateSource(String source) {
         getValidators().forEach(v -> v.validate(source));
 
         return true;
