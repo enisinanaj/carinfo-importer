@@ -1,6 +1,6 @@
 # RESTful API with Spring MVC
 
-[![CircleCI](https://circleci.com/gh/enisinanaj/company-rest-endpoints/tree/master.svg?style=svg)](https://circleci.com/gh/enisinanaj/company-rest-endpoints/tree/master) [![codecov](https://codecov.io/gh/enisinanaj/company-rest-endpoints/branch/master/graph/badge.svg)](https://codecov.io/gh/enisinanaj/company-rest-endpoints) [![Heroku](https://heroku-badge.herokuapp.com/?app=restful-cmp&root=companies)](https://restful-cmp.herokuapp.com/companies)
+[![CircleCI](https://circleci.com/gh/enisinanaj/carinfo-importer/tree/master.svg?style=svg)](https://circleci.com/gh/enisinanaj/carinfo-import/tree/master) [![codecov](https://codecov.io/gh/enisinanaj/carinfo-importer/branch/master/graph/badge.svg)](https://codecov.io/gh/enisinanaj/carinfo-importer)
 
 
 This project is an example implementation of a RESTful API in Java using the Spring MVC framework. 
