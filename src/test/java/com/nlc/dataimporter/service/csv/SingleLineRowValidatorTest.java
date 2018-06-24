@@ -26,6 +26,16 @@ public class SingleLineRowValidatorTest {
         classUnderTest.validate(csvRow);
     }
 
+    @Test(expected=RuntimeException.class)
+    public void givenMoreThanOneLineInInput_whenValidateIsCalled_thenExceptionThrown() throws Exception {
+        //given
+        String csvRow = TestUtils.IMPORT_LINE_FOR_TEST + "\n" + TestUtils.IMPORT_LINE_FOR_TEST;
+
+        //when
+        DataValidator classUnderTest = new SingleLineRowValidator();
+        classUnderTest.validate(csvRow);
+    }
+
     @Test
     public void givenWorkingCSVRow_whenValidateIsCalled_thenNothingHappens() throws Exception {
         //given

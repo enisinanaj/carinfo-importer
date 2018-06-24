@@ -22,13 +22,6 @@ public class CarInfo {
     public CarInfo() {
     }
 
-    public CarInfo(String vin, String input1, String input2, String carMake) {
-        this.vin = vin;
-        this.input1 = input1;
-        this.input2 = input2;
-        this.carMake = carMake;
-    }
-
     public String getVin() {
         return vin;
     }

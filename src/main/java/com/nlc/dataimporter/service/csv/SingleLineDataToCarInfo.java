@@ -2,6 +2,11 @@ package com.nlc.dataimporter.service.csv;
 
 
 import com.nlc.dataimporter.model.CarInfo;
+import com.nlc.dataimporter.service.DataValidator;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by sinanaj on 20/06/2018.
@@ -10,6 +15,11 @@ public class SingleLineDataToCarInfo {
 
     private String source;
     private CarInfo importedCarInfo;
+    private List<DataValidator> validators = new ArrayList<>();
+
+    {
+        validators.add(new SingleLineRowValidator());
+    }
 
     public CarInfo importFromSource(String source) {
 
@@ -24,22 +34,18 @@ public class SingleLineDataToCarInfo {
     }
 
     private boolean isSourceFormatValid(String source) {
-        getValidator().validate(source);
+        getValidators().forEach(v -> v.validate(source));
 
         return true;
     }
 
-    protected SingleLineRowValidator getValidator() {
-        return new SingleLineRowValidator();
+    protected List<DataValidator> getValidators() {
+        return this.validators;
     }
 
     private void convertSourceToCarInfo() {
         String[] sourceColumns = source.split(",");
-        CarInfo carInfo = new CarInfo();
-
-        if (sourceColumns.length < 4) {
-            throw new RuntimeException(String.format("Invalid row. The data row (%s) does not contain all the required information.", source));
-        }
+        CarInfo carInfo = createNewCarInfo();
 
         carInfo.setVin(sourceColumns[0]);
         carInfo.setInput1(sourceColumns[1]);
@@ -47,5 +53,9 @@ public class SingleLineDataToCarInfo {
         carInfo.setCarMake(sourceColumns[3]);
 
         this.importedCarInfo = carInfo;
+    }
+
+    private CarInfo createNewCarInfo() {
+        return new CarInfo();
     }
 }
