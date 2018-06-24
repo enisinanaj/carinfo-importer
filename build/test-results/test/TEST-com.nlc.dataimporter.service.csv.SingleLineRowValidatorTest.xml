@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.nlc.dataimporter.service.csv.SingleLineRowValidatorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-06-23T23:15:39" hostname="endorphine.homenet.telecomitalia.it" time="0.024">
-  <properties/>
-  <testcase name="givenNullInput_whenValidateIsCalled_thenExceptionThrown" classname="com.nlc.dataimporter.service.csv.SingleLineRowValidatorTest" time="0.006"/>
-  <testcase name="givenWorkingCSVRow_whenValidateIsCalled_thenNothingHappens" classname="com.nlc.dataimporter.service.csv.SingleLineRowValidatorTest" time="0.005"/>
-  <testcase name="givenWrongCSVRow_whenValidateIsCalled_thenExceptionThrown" classname="com.nlc.dataimporter.service.csv.SingleLineRowValidatorTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

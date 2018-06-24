@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.nlc.dataimporter.service.csv.ImportFromSingleLineStrategyTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-06-23T23:15:39" hostname="endorphine.homenet.telecomitalia.it" time="0.768">
-  <properties/>
-  <testcase name="givenCorrectImportData_whenImportingData_thenCollaboratorsAreCalled" classname="com.nlc.dataimporter.service.csv.ImportFromSingleLineStrategyTest" time="0.756"/>
-  <testcase name="givenNull_whenImportingData_thenRuntimeExceptionIsThrown" classname="com.nlc.dataimporter.service.csv.ImportFromSingleLineStrategyTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
