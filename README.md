@@ -75,6 +75,19 @@ WF0WXXGCDW6R41261,VA,H1,FORD
 WVWZZZ3CZEE062520,VA,H2,VOLKSWAGEN"
 ```
 
+the expected result is as follows (if everything goes well):
+
+```
+HTTP/1.1 201 
+Location: http://localhost:8080/carinfo
+Content-Length: 0
+Date: Sun, 24 Jun 2018 20:49:57 GMT
+Connection: close
+```
+
+otherwise if there were errors a simple 400 status code will be returned.
+
+
 ## Running the tests
 
 The tests are run easily with the gradle task
