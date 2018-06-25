@@ -129,13 +129,17 @@ gradlew check
 
 ## Deployment
 
-Application is deployed to Heroku at https://restful-cmp.herokuapp.com/companies
+To deploy the application locally it's sufficient to just run the gradle task `bootRun` lik this:
+```
+gradlew bootRun
+```
 
 ## Authentication
 
 A suggested authentication method between the client(s) and this backend server would be two-legged OAuth 2.0.
 
 _As described in this image_
+
 ![2-legged OAuth 2.0](http://codehustler.org/wp-content/uploads/2014/06/2_legged_oauth_1.png)
 
 ## Built With
