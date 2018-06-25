@@ -134,6 +134,8 @@ To deploy the application locally it's sufficient to just run the gradle task `b
 gradlew bootRun
 ```
 
+The app is also deployed on Heroku: https://carinfo-importer.herokuapp.com/carinfo
+
 ## Authentication
 
 A suggested authentication method between the client(s) and this backend server would be two-legged OAuth 2.0.
