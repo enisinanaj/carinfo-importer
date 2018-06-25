@@ -99,7 +99,7 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public String loadFileContentAsString(String filename) {
         try (InputStream is = loadAsResource(filename).getInputStream()) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("utf8")))) {
+            try (BufferedReader reader = getBufferedReader(is)) {
                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
             } catch (IOException io) {
                 throw new StorageException("Unable to read resource.");
@@ -107,5 +107,9 @@ public class FileSystemStorageService implements StorageService {
         } catch (IOException e) {
             throw new StorageException("Unable to read resource.");
         }
+    }
+
+    protected BufferedReader getBufferedReader(InputStream inputStream) throws IOException {
+        return new BufferedReader(new InputStreamReader(inputStream, Charset.forName("utf8")));
     }
 }

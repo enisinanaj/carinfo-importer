@@ -9,7 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +122,50 @@ public class FileSystemStorageServiceTest {
         //given
         String fileContent = TestUtils.IMPORT_LINE_FOR_TEST + System.lineSeparator() + TestUtils.IMPORT_LINE_FOR_TEST;
         MockMultipartFile multipartFile = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE, fileContent.getBytes());
+
+        //when
+        service.store(multipartFile);
+        String content = service.loadFileContentAsString("foo.txt");
+
+        //then
+        assertThat(content).isEqualTo(fileContent);
+    }
+
+    @Test(expected = StorageException.class)
+    public void givenStorageService_whenLoadFileContentAsString_thenThrowException() throws IOException {
+        //given
+        String fileContent = TestUtils.IMPORT_LINE_FOR_TEST + System.lineSeparator() + TestUtils.IMPORT_LINE_FOR_TEST;
+        MockMultipartFile multipartFile = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE, fileContent.getBytes());
+        service = new FileSystemStorageServiceForTest(properties) {
+            @Override
+            protected BufferedReader getBufferedReader(InputStream inputStream) throws IOException {
+                throw new IOException();
+            }
+        };
+
+        //when
+        service.store(multipartFile);
+        String content = service.loadFileContentAsString("foo.txt");
+
+        //then
+        assertThat(content).isEqualTo(fileContent);
+    }
+
+    @Test(expected = StorageException.class)
+    public void givenStorageService_whenLoadFileContentAsString_thenFailsAtLoadAsResource() throws IOException {
+        //given
+        String fileContent = TestUtils.IMPORT_LINE_FOR_TEST + System.lineSeparator() + TestUtils.IMPORT_LINE_FOR_TEST;
+        MockMultipartFile multipartFile = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE, fileContent.getBytes());
+        Resource mockedResource = mock(Resource.class);
+
+        given(mockedResource.getInputStream()).willThrow(new IOException());
+
+        service = new FileSystemStorageServiceForTest(properties) {
+            @Override
+            public Resource loadAsResource(String filename) {
+                return mockedResource;
+            }
+        };
 
         //when
         service.store(multipartFile);

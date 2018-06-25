@@ -70,7 +70,7 @@ public class ImportFromMultiLineStrategyTest {
     public void givenContentIsErroneous_whenImporting_thenNoElementIsSaved() throws Exception {
         //given
         String erroneousString = "error";
-        String source = TestUtils.IMPORT_MULTI_LINE_FOR_TEST + "\n" + erroneousString;
+        String source = TestUtils.IMPORT_MULTI_LINE_FOR_TEST + System.lineSeparator() + erroneousString;
         given(converterMocked.importFromSource(erroneousString)).willThrow(new RuntimeException());
 
         //when
