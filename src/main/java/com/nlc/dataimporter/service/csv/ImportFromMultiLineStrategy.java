@@ -33,7 +33,7 @@ public class ImportFromMultiLineStrategy implements ImportFromTextStrategy {
     }
 
     private void populateCarsToImport(String dataToImport) {
-        for (String line : dataToImport.split("\n")) {
+        for (String line : dataToImport.split(System.lineSeparator())) {
             carsToImport.add(getSingleLineDataToCarInfoConverter().importFromSource(line));
         }
     }

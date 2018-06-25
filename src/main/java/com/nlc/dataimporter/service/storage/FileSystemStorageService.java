@@ -43,10 +43,8 @@ public class FileSystemStorageService implements StorageService {
         validateFile(file);
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try {
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-            }
+        try (InputStream inputStream = file.getInputStream()) {
+            Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);

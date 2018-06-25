@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,6 +17,7 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
@@ -27,7 +29,7 @@ public class FileSystemStorageServiceTest {
 
     class FileSystemStorageServiceForTest extends FileSystemStorageService {
 
-        public FileSystemStorageServiceForTest(StorageProperties properties) {
+        FileSystemStorageServiceForTest(StorageProperties properties) {
             super(properties);
         }
 
@@ -65,6 +67,16 @@ public class FileSystemStorageServiceTest {
 
         //then
         assertThat(loaded).exists();
+    }
+
+    @Test(expected = StorageException.class)
+    public void whenStoringWrongFile_exceptionIsThrown() throws IOException {
+        //given
+        MultipartFile file = mock(MultipartFile.class);
+        given(file.getInputStream()).willThrow(new IOException());
+
+        //when
+        service.store(file);
     }
 
     @Test(expected = StorageException.class)
@@ -106,7 +118,7 @@ public class FileSystemStorageServiceTest {
     @Test
     public void loadFileContentAsString() throws IOException {
         //given
-        String fileContent = TestUtils.IMPORT_LINE_FOR_TEST + "\n" + TestUtils.IMPORT_LINE_FOR_TEST;
+        String fileContent = TestUtils.IMPORT_LINE_FOR_TEST + System.lineSeparator() + TestUtils.IMPORT_LINE_FOR_TEST;
         MockMultipartFile multipartFile = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE, fileContent.getBytes());
 
         //when
