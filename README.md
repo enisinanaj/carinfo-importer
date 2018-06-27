@@ -54,6 +54,13 @@ Location: http://localhost:8080/carinfo/3
 Content-Length: 0
 Date: Sun, 24 Jun 2018 13:09:51 GMT
 Connection: close
+
+{
+    "vin": "VF1KMS40A36042123",
+    "input1": "KB",
+    "input2": "H1",
+    "carMake": "RENAULT"
+}
 ```
 
 > returning a **Location** header that points at the newly created resource. In case of a file upload and multiple imports It's returning the **Location** of all the car info elements.
@@ -83,6 +90,20 @@ Location: http://localhost:8080/carinfo
 Content-Length: 0
 Date: Sun, 24 Jun 2018 20:49:57 GMT
 Connection: close
+
+[{
+    "vin": "VF1KMS40A36042123",
+    "input1": "KB",
+    "input2": "H1",
+    "carMake": "RENAULT"
+},
+{
+    "vin": "SHSRE67507U001669",
+    "input1": "KB",
+    "input2": "H3",
+    "carMake": "HONDA"
+},
+...]
 ```
 
 otherwise if there were errors a simple 400 status code will be returned.
