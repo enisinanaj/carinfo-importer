@@ -18,9 +18,14 @@ public class CarInfo {
     private Long id;
 
     private String vin;
-    private String input1;
-    private String input2;
     private String carMake;
+
+    @JsonIgnore
+    private String input1;
+
+    @JsonIgnore
+    private String input2;
+
 
     public CarInfo() {
     }

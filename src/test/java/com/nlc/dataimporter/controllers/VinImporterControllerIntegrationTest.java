@@ -78,6 +78,8 @@ public class VinImporterControllerIntegrationTest {
                 .andExpect(jsonPath("$.carMake").isString())
                 .andExpect(jsonPath("$.vin").value("VF1KMS40A36042123"))
                 .andExpect(jsonPath("$.id").doesNotExist())
+                .andExpect(jsonPath("$.input1").doesNotExist())
+                .andExpect(jsonPath("$.input2").doesNotExist())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult.getResponse().getHeaderValue("Location"));
@@ -143,6 +145,8 @@ public class VinImporterControllerIntegrationTest {
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$[0].carMake").value("RENAULT"))
                 .andExpect(jsonPath("$[0].id").doesNotExist())
+                .andExpect(jsonPath("$[0].input1").doesNotExist())
+                .andExpect(jsonPath("$[0].input2").doesNotExist())
                 .andReturn();
 
         Assertions.assertThat(repository.count()).isEqualTo(initialCount + 2);
