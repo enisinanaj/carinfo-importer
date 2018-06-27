@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Created by sinanaj on 18/06/2018.
@@ -63,6 +64,20 @@ public class VinImporterControllerIntegrationTest {
                 .content(TestUtils.IMPORT_LINE_FOR_TEST)
                 .contentType("text/plain"))
                 .andDo(print()).andExpect(status().isCreated())
+                .andReturn();
+
+        Assert.assertNotNull(mvcResult.getResponse().getHeaderValue("Location"));
+    }
+
+    @Test
+    public void givenCarInfoAsText_whenMockMVC_thenVerifyResponseIsTheInsertedCarInfo() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(post("/carinfo")
+                .content(TestUtils.IMPORT_LINE_FOR_TEST)
+                .contentType("text/plain"))
+                .andDo(print()).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.carMake").isString())
+                .andExpect(jsonPath("$.vin").value("VF1KMS40A36042123"))
+                .andExpect(jsonPath("$.id").doesNotExist())
                 .andReturn();
 
         Assert.assertNotNull(mvcResult.getResponse().getHeaderValue("Location"));
@@ -107,6 +122,27 @@ public class VinImporterControllerIntegrationTest {
                     .file(multipartFile)
                     .contentType("multipart/form-data")
                 ).andDo(print()).andExpect(status().isCreated())
+                .andReturn();
+
+        Assertions.assertThat(repository.count()).isEqualTo(initialCount + 2);
+    }
+
+    @Test
+    public void givenCSVFile_whenMockMVC_thenVerifyResultContainsTheInsertedElements() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+                "text/plain", TestUtils.IMPORT_MULTI_LINE_FOR_TEST.getBytes());
+
+        CarInfoRepository repository = (CarInfoRepository) wac.getBean("carInfoRepository");
+        long initialCount = repository.count();
+
+        this.mockMvc.perform(fileUpload("/carinfo")
+                    .file(multipartFile)
+                    .contentType("multipart/form-data")
+                ).andDo(print()).andExpect(status().isCreated())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(jsonPath("$[0].carMake").value("RENAULT"))
+                .andExpect(jsonPath("$[0].id").doesNotExist())
                 .andReturn();
 
         Assertions.assertThat(repository.count()).isEqualTo(initialCount + 2);

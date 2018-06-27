@@ -1,5 +1,7 @@
 package com.nlc.dataimporter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ public class CarInfo {
 
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Long id;
 
     private String vin;

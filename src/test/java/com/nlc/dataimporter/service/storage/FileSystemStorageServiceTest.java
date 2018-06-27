@@ -4,7 +4,9 @@ import com.nlc.dataimporter.service.DataValidator;
 import com.nlc.dataimporter.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.nio.Buffer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +25,19 @@ import java.util.Random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 public class FileSystemStorageServiceTest {
 
     private StorageProperties properties = new StorageProperties();
     private FileSystemStorageService service;
     private List<DataValidator> validatorsList;
+    private UrlResource mockedResource;
+    private BufferedReader mockedBufferReader;
+    private InputStreamReader mockedInputStream;
 
     class FileSystemStorageServiceForTest extends FileSystemStorageService {
 
@@ -39,6 +49,21 @@ public class FileSystemStorageServiceTest {
         protected List<DataValidator> getValidators() {
             return validatorsList;
         }
+
+        @Override
+        protected UrlResource getResourceFromFile(Path file) throws MalformedURLException {
+            return mockedResource;
+        }
+
+        @Override
+        protected BufferedReader getBufferedReader(InputStream inputStream) throws IOException {
+            return mockedBufferReader;
+        }
+
+        @Override
+        protected InputStreamReader createInputStream(InputStream inputStream) {
+            return mockedInputStream;
+        }
     }
 
     @Before
@@ -48,6 +73,13 @@ public class FileSystemStorageServiceTest {
         service.init();
 
         validatorsList = new ArrayList<>();
+
+        mockedBufferReader = mock(BufferedReader.class);
+        mockedResource = mock(UrlResource.class);
+        mockedInputStream = mock(InputStreamReader.class);
+
+        given(mockedResource.exists()).willReturn(true);
+        given(mockedResource.isReadable()).willReturn(true);
     }
 
     @Test
@@ -114,7 +146,31 @@ public class FileSystemStorageServiceTest {
         Resource resource = service.loadAsResource("foo.txt");
 
         //then
-        assertThat(resource.contentLength()).isEqualTo(multipartFile.getSize());
+        assertThat(resource).isEqualTo(mockedResource);
+    }
+
+    @Test(expected = StorageException.class)
+    public void givenNullFile_wehnLoadFileAsResource_thenThrowException() throws IOException {
+        //given
+        MockMultipartFile multipartFile = new MockMultipartFile("foo", "bar/../foo.txt", MediaType.TEXT_PLAIN_VALUE, "Hello World".getBytes());
+        given(mockedResource.exists()).willReturn(false);
+        given(mockedResource.isReadable()).willReturn(false);
+
+        //when
+        service.store(multipartFile);
+        Resource resource = service.loadAsResource("foo.txt");
+    }
+
+    @Test(expected = StorageException.class)
+    public void givenThatExistsButIsNotReadable_wehnLoadFileAsResource_thenThrowException() throws IOException {
+        //given
+        MockMultipartFile multipartFile = new MockMultipartFile("foo", "bar/../foo.txt", MediaType.TEXT_PLAIN_VALUE, "Hello World".getBytes());
+        given(mockedResource.exists()).willReturn(true);
+        given(mockedResource.isReadable()).willReturn(false);
+
+        //when
+        service.store(multipartFile);
+        Resource resource = service.loadAsResource("foo.txt");
     }
 
     @Test
@@ -128,7 +184,7 @@ public class FileSystemStorageServiceTest {
         String content = service.loadFileContentAsString("foo.txt");
 
         //then
-        assertThat(content).isEqualTo(fileContent);
+        then(mockedBufferReader).should(times(1)).lines();
     }
 
     @Test(expected = StorageException.class)

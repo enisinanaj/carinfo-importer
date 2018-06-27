@@ -68,17 +68,20 @@ public class FileSystemStorageService implements StorageService {
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
+            Resource resource = getResourceFromFile(file);
+            if (resource.exists() && resource.isReadable()) {
                 return resource;
-            }
-            else {
+            }  else {
                 throw new StorageFileNotFoundException("Could not read file: " + filename);
             }
         }
         catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
+    }
+
+    protected UrlResource getResourceFromFile(Path file) throws MalformedURLException {
+        return new UrlResource(file.toUri());
     }
 
     @Override
@@ -110,6 +113,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     protected BufferedReader getBufferedReader(InputStream inputStream) throws IOException {
-        return new BufferedReader(new InputStreamReader(inputStream, Charset.forName("utf8")));
+        return new BufferedReader(createInputStream(inputStream));
+    }
+
+    protected InputStreamReader createInputStream(InputStream inputStream) {
+        return new InputStreamReader(inputStream, Charset.forName("utf8"));
     }
 }

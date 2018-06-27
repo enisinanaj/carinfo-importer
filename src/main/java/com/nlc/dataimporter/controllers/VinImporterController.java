@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.xml.transform.Source;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by sinanaj on 19/06/2018.
@@ -38,18 +39,18 @@ public class VinImporterController {
     }
 
     @RequestMapping(method=RequestMethod.POST, consumes=MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity saveNewCarInfo(@RequestBody String companyData) {
+    public ResponseEntity<CarInfo> saveNewCarInfo(@RequestBody String companyData) {
         ImportFromTextStrategy strategy = importFromTextStrategyFactory.createStrategy(SourceType.SINGLE_LINE);
         strategy.importData(companyData);
         CarInfo result = (CarInfo) strategy.getImportedData();
 
         URI uri = getCurrentContextPath().path("/carinfo").path("/{id}").buildAndExpand(result.getId()).toUri();
 
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(result);
     }
 
     @RequestMapping(method=RequestMethod.POST, consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity importCarsFromFile(@RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<List<CarInfo>> importCarsFromFile(@RequestParam("file") MultipartFile multipartFile) {
 
         getStorageService().store(multipartFile);
         String fileContent = getStorageService().loadFileContentAsString(multipartFile.getOriginalFilename());
@@ -58,7 +59,7 @@ public class VinImporterController {
         strategy.importData(fileContent);
 
         URI uri = getCurrentContextPath().path("/carinfo").buildAndExpand().toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body((List<CarInfo>) strategy.getImportedData());
     }
 
     @ResponseBody
