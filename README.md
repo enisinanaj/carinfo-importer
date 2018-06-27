@@ -57,8 +57,6 @@ Connection: close
 
 {
     "vin": "VF1KMS40A36042123",
-    "input1": "KB",
-    "input2": "H1",
     "carMake": "RENAULT"
 }
 ```
@@ -93,14 +91,10 @@ Connection: close
 
 [{
     "vin": "VF1KMS40A36042123",
-    "input1": "KB",
-    "input2": "H1",
     "carMake": "RENAULT"
 },
 {
     "vin": "SHSRE67507U001669",
-    "input1": "KB",
-    "input2": "H3",
     "carMake": "HONDA"
 },
 ...]
